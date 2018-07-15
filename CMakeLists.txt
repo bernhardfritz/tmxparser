@@ -77,9 +77,12 @@ configure_file(src/tmxparser.pc.in tmxparser.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tmxparser.pc DESTINATION lib/pkgconfig)
 
 # Build documentation
-find_package(Doxygen)
+option(BUILD_DOCUMENTATION "Build documentation" ON)
+if (BUILD_DOCUMENTATION)
+    find_package(Doxygen)
 
-if(DOXYGEN_FOUND)
-    configure_file(${PROJECT_SOURCE_DIR}/Doxyfile.in ${PROJECT_BINARY_DIR}/doc/Doxyfile @ONLY)
-    add_custom_target(doc ALL ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/doc/Doxyfile  COMMENT "Generating API documentation with Doxygen" VERBATIM)
-endif(DOXYGEN_FOUND)
+    if(DOXYGEN_FOUND)
+        configure_file(${PROJECT_SOURCE_DIR}/Doxyfile.in ${PROJECT_BINARY_DIR}/doc/Doxyfile @ONLY)
+        add_custom_target(doc ALL ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/doc/Doxyfile  COMMENT "Generating API documentation with Doxygen" VERBATIM)
+    endif(DOXYGEN_FOUND)
+endif (BUILD_DOCUMENTATION)
